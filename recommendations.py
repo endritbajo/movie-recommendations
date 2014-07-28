@@ -3,7 +3,8 @@ __author__ = 'endrit'
 from data import critics
 from math import sqrt
 
-def euclidean_distance(prefs, person1, person2):
+# get the ecuclidean distance between person1 and person2
+def euclidean_distance(prefs, p1, p2):
   # get the list of shared items
   si = {}
   for item in prefs[person1]:
@@ -20,3 +21,31 @@ def euclidean_distance(prefs, person1, person2):
       sum_of_squares += pow(prefs[person1][item] - prefs[person2][item], 2)
 
   return 1 / (1 + sum_of_squares)
+
+def pearson_correlation(prefs, p1, p2):
+  # get shared list
+  si = {}
+  for item in prefs[p1]:
+    if item in prefs[p2]
+      si[item] = 1
+
+  # if there are no ratings in common
+  if len(si) == 0: return 0
+
+  # add all preferences
+  sum1 = sum([ prefs[p1][it] for it in si ])
+  sum2 = sum([ prefs[p2][it] for it in si ])
+
+  # sum the squares
+  sum1sq = sum([ pow(prefs[p1][it], 2) for it in si ])
+  sum2sq = sum([ pow(prefs[p2][it], 2) for it in si ])
+
+  # sum the products
+  psum = sum([ prefs[p1][it] * prefs[p2][it] for it in si ])
+
+  # calculate
+  num = psum - (sum1 * sum2 / n)
+  den = sqrt((sum1sq - pow(sum1, 2)/n) * (sum2sq - pow(sum2, 2)/n))
+  if den == 0: return 0
+
+  return num / den
