@@ -26,11 +26,13 @@ def pearson_correlation(prefs, p1, p2):
   # get shared list
   si = {}
   for item in prefs[p1]:
-    if item in prefs[p2]
+    if item in prefs[p2]:
       si[item] = 1
 
+  n = len(si)
+
   # if there are no ratings in common
-  if len(si) == 0: return 0
+  if n == 0: return 0
 
   # add all preferences
   sum1 = sum([ prefs[p1][it] for it in si ])
@@ -49,3 +51,40 @@ def pearson_correlation(prefs, p1, p2):
   if den == 0: return 0
 
   return num / den
+
+def pearson_correlation_formula(prefs, p1, p2):
+  # get shared list
+  si = {}
+  for item in prefs[p1]:
+    if item in prefs[p2]:
+      si[item] = 1
+
+  n = len(si)
+
+  # if there are no ratings in common
+  if n == 0: return 0
+
+  # add all preferences
+  sum1 = sum([ prefs[p1][it] for it in si ])
+  sum2 = sum([ prefs[p2][it] for it in si ])
+
+  # means
+  mean1 = sum1 / n
+  mean2 = sum2 / n
+
+  num = sum([ (prefs[p1][it] - mean1) * (prefs[p2][it] - mean2) for it in si ])
+  den = sqrt(sum([ pow((prefs[p1][it] - mean1), 2) for it in si])) * sqrt(sum([ pow((prefs[p2][it] - mean2), 2) for it in si]))
+
+  if den == 0: return 0
+
+  return num / den
+
+
+def top_matches(prefs, person, n = 5, similarity = pearson_correlation):
+  scores = [ (similarity(prefs, person, other), other) for other in prefs]
+
+  # sort the list to put the highest scores at the top
+  scores.sort()
+  scores.reverse()
+
+  return scores[0:n]
