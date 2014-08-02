@@ -3,20 +3,48 @@ __author__ = 'endrit bajo'
 import distances
 
 """
-  Returns users with similar tastes (user-based filtering)
+  Given an item, it returns items similar to each other (similar movies or similar users).
+  The data is a dictionary structured in the following way:
+
+  data = {
+    user1 : {movie1: rating1, movie2: rating2, ... movien: ratingn}
+    ...
+    usern : {movie1:rating1, movie2: rating2, ... movien: ratingn}
+  }
+
+  If you want similar users.
+
+  data = {
+    movie1 : {user1: rating1, user2: rating2, ... usern: ratingn}
+    ...
+    movien : {user1: rating1, user2: rating2, ... usern: ratingn}
+  }
+
+  If you want similar items.
+
 """
-def similar_users(data, person,
+def similar_items(data, myitem,
                   similarity = distances.pearson_correlation,
                   n = 5):
-  items = [(similarity(data, person, other), other) for other in data if other != person]
+  items = [(similarity(data, myitem, other), other)
+              for other in data if other != myitem]
 
   items.sort()
   items.reverse()
 
-  return items[0:5]
+  return items[0:n]
+
 
 """
-  Returns a list of recommended movies (user-based filtering)
+  Given a user, it returns a list of recommended movies.
+  The data is a dictionary structured in the following way:
+
+  data = {
+    user1 : {movie1: rating1, movie2: rating2, ... movien: ratingn}
+    ...
+    usern : {movie1:rating1, movie2: rating2, ... movien: ratingn}
+  }
+
 """
 def recommended_movies(data,
                        person,

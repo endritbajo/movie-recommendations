@@ -14,24 +14,17 @@ def getmovies():
     movies[id] = title
   return movies
 
-def getratings_by_user():
+def getratings(bymovie = False):
   data = {}
   # get user ratings
   data_file = urllib2.urlopen(data_url)
   for line in data_file:
     (user, movieid, rating, ts) = line.split('\t')
-    data.setdefault(user, {})
-    data[user][movieid] = int(rating)
-
-  return data
-
-def getratings_by_movie():
-  data = {}
-  # get user ratings
-  data_file = urllib2.urlopen(data_url)
-  for line in data_file:
-    (user, movieid, rating, ts) = line.split('\t')
-    data.setdefault(movieid, {})
-    data[movieid][user] = int(rating)
+    if bymovie:
+      data.setdefault(movieid, {})
+      data[movieid][user] = int(rating)
+    else:
+      data.setdefault(user, {})
+      data[user][movieid] = int(rating)
 
   return data
