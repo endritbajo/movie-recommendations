@@ -159,6 +159,7 @@ def recommended_movies(data,
           total_similarities.setdefault(movie, 0)
           total_similarities[movie] += sim
 
+
   movies = [(total / total_similarities[movie], movie) for (movie, total) in total_score.items()]
 
   movies.sort()
